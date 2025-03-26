@@ -6,6 +6,7 @@ import {
   MaxFileSizeValidator,
   ParseFilePipe,
   Post,
+  Redirect,
   UploadedFile,
   UseInterceptors,
 } from '@nestjs/common';
@@ -22,6 +23,7 @@ export class AppController {
   ) {}
 
   @Get()
+  @Redirect('api')
   getHello(): string {
     return this.appService.getHello();
   }

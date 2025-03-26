@@ -16,11 +16,13 @@ describe('AppController (e2e)', () => {
     await app.init();
   });
 
-  it('/ (GET)', () => {
-    return request(app.getHttpServer())
-      .get('/')
-      .expect(200)
-      .expect('Hello World!');
+  describe('/ (GET)', () => {
+    it('Should redirect to swagger api if someone enter in root of the api', () => {
+      return request(app.getHttpServer())
+        .get('/')
+        .expect(302)
+        .expect('Location', 'api');
+    });
   });
 
   describe('/excel-to-json', () => {
