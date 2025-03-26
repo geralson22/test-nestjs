@@ -13,7 +13,7 @@ import {
 import { AppService } from './app.service';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { ExcelService } from './excel/excel.service';
-import { ApiBody, ApiConsumes } from '@nestjs/swagger';
+import { ApiBody, ApiConsumes, ApiExcludeEndpoint } from '@nestjs/swagger';
 
 @Controller()
 export class AppController {
@@ -23,6 +23,7 @@ export class AppController {
   ) {}
 
   @Get()
+  @ApiExcludeEndpoint(true)
   @Redirect('api')
   getHello(): string {
     return this.appService.getHello();
@@ -39,6 +40,7 @@ export class AppController {
           maxLength: 100000,
         },
       },
+      required: ['file'],
     },
   })
   @ApiConsumes('multipart/form-data')
