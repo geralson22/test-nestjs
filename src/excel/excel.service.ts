@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import * as ExcelJS from 'exceljs';
 
 @Injectable()
@@ -20,12 +20,14 @@ export class ExcelService {
     const jsonData: Record<string, string>[] = [];
     const headers = worksheet.getRow(1)?.values as string[];
 
+    if (headers.length === 0) {
+      return jsonData;
+    }
+
     worksheet.eachRow((row, rowNumber) => {
       if (rowNumber === 1) return;
 
       const rowData: Record<string, string> = {};
-
-      if (!headers) return;
 
       headers.forEach((header, index: number) => {
         rowData[header] = row.getCell(index).value as string;
